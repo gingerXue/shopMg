@@ -37,8 +37,8 @@ export default {
   data () {
     return {
       form: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
       },
       rules: {
         username: [
@@ -52,12 +52,20 @@ export default {
   },
   methods: {
     login () {
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          // 验证通过
-          console.log(this.form)
+      this.$refs.form.validate(async valid => {
+        if (!valid) return
+        const { data } = await this.$http.post('/login', this.form)
+        if (data.meta.status !== 200) {
+          // 登陆失败
+          this.$message.error(`登录失败,${data.meta.msg}`)
         } else {
-          return false
+          // 登录成功
+          /**
+           * 1. 登录成功之后将token保存在sessionStorage中
+           * 2. 利用路由跳转到后台主页页面
+           */
+          window.sessionStorage.setItem('token', data.data.token)
+          this.$router.push('/home')
         }
       })
     }
