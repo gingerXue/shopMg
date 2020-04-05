@@ -17,8 +17,8 @@
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email"></el-input>
       </el-form-item>
-      <el-form-item label="手机" prop="phone">
-        <el-input v-model="form.phone"></el-input>
+      <el-form-item label="手机" prop="mobile">
+        <el-input v-model="form.mobile"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -63,7 +63,7 @@ export default {
         username: '',
         password: '',
         email: '',
-        phone: ''
+        mobile: ''
       },
       formRules: {
         username: [
@@ -75,7 +75,7 @@ export default {
           { min: 5, max: 10, message: '密码长度在5～10位字符', trigger: 'blur' }
         ],
         email: [{ validator: checkEmail, trigger: 'blur'}],
-        phone: [{ validator: checkPhone, trigger: 'blur'}]
+        mobile: [{ validator: checkPhone, trigger: 'blur'}]
       }
     }
   },
