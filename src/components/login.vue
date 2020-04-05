@@ -54,18 +54,22 @@ export default {
     login () {
       this.$refs.form.validate(async valid => {
         if (!valid) return
-        const { data } = await this.$http.post('/login', this.form)
-        if (data.meta.status !== 200) {
-          // 登陆失败
-          this.$message.error(`登录失败,${data.meta.msg}`)
-        } else {
-          // 登录成功
-          /**
-           * 1. 登录成功之后将token保存在sessionStorage中
-           * 2. 利用路由跳转到后台主页页面
-           */
-          window.sessionStorage.setItem('token', data.data.token)
-          this.$router.push('/home')
+        try {
+          const { data } = await this.$http.post('/login', this.form)
+          if (data.meta.status !== 200) {
+            // 登陆失败
+            this.$message.error(`登录失败,${data.meta.msg}`)
+          } else {
+            // 登录成功
+            /**
+            * 1. 登录成功之后将token保存在sessionStorage中
+            * 2. 利用路由跳转到后台主页页面
+            */
+            window.sessionStorage.setItem('token', data.data.token)
+            this.$router.push('/home')
+          }
+        } catch (e) {
+          this.$message.error('出了点小意外，请联系管理员')
         }
       })
     }
