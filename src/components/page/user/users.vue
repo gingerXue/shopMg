@@ -136,6 +136,7 @@ export default {
       this.searchUser()
     },
     handleSizeChange (val) {
+      // 改变一页显示的数据条数
       this.queryInfo.pageSize = val
     },
     handleCurrentChange (val) {
