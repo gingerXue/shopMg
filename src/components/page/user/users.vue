@@ -15,10 +15,6 @@
         </el-input>
         <el-button style="margin-left: 10px" type="primary" @click="addUser">添加用户</el-button>
       </div>
-      <!--添加用户对话框-->
-      <add-user :add.sync="add"></add-user>
-      <!--修改用户对话框-->
-      <edit-user :edit.sync="edit"></edit-user>
       <!--数据显示区域-->
       <el-table
         :data="tableData.userData"
@@ -43,7 +39,7 @@
               <el-button slot="reference" size="mini" icon="el-icon-delete" type="danger"></el-button>
             </el-popconfirm>
             <el-tooltip effect="dark" content="分配角色" placement="top-start" :enterable="false">
-              <el-button size="mini" icon="el-icon-setting" type="warning"></el-button>
+              <el-button size="mini" icon="el-icon-setting" type="warning" @click="distributeRoles(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -59,6 +55,12 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="tableData.total">
       </el-pagination>
+      <!--添加用户对话框-->
+      <add-user :add.sync="add"></add-user>
+      <!--修改用户对话框-->
+      <edit-user :edit.sync="edit"></edit-user>
+      <!--分配角色对话框-->
+      <distribute-roles :distribute="distribute"></distribute-roles>
     </el-card>
   </div>
 </template>
@@ -66,9 +68,10 @@
 <script>
 import addUser from './addUserDialog'
 import editUser from './editUserDialog'
+import distributeRoles from './distributeRoles'
 export default {
   name: 'users',
-  components: { addUser, editUser },
+  components: { addUser, editUser, distributeRoles },
   data () {
     return {
       add: {
@@ -76,6 +79,10 @@ export default {
         data: null
       },
       edit: {
+        isOpen: false,
+        data: null
+      },
+      distribute: {
         isOpen: false,
         data: null
       },
@@ -117,6 +124,10 @@ export default {
       this.edit.data = text
       this.edit.isOpen = true
     },
+    distributeRoles (text) {
+      this.distribute.data = text
+      this.distribute.isOpen = true
+    },
     async deleteUser (text) {
       console.log(text)
       const { data } = await this.$http.delete(`/users/${text.id}`)
@@ -154,17 +165,20 @@ export default {
       },
       deep: true
     },
-    add: {
+    'add.isOpen': {
       handler (newVal) {
-        if (!newVal.isOpen) this.userInit()
-      },
-      deep: true
+        if (!newVal) this.userInit()
+      }
     },
-    edit: {
+    'edit.isOpen': {
       handler (newVal) {
-        if (!newVal.isOpen) this.userInit()
-      },
-      deep: true
+        if (!newVal) this.userInit()
+      }
+    },
+    'distribute.isOpen': {
+      handler (newVal) {
+        if (!newVal) this.userInit()
+      }
     }
   }
 }

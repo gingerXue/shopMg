@@ -177,7 +177,8 @@ export default {
       box-sizing: border-box;
       padding: 20px 15px 15px 15px;
       background-color: #EAEDF1;
-      width: 100%
+      width: 100%;
+      height: 100%;
     }
   }
   .toggle-btn {

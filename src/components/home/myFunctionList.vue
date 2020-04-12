@@ -1,4 +1,5 @@
 <template>
+  <!-- 暂时不用 -->
   <ul class="menubar" ref="ulDom">
     <li class="menubar-item" v-for="(item, index) in copiedList" :key="item.name" @click.stop="handleClick(index)">
       <!--:style="{ paddingLeft: (item.isInline ? '30px' : '')}"-->
