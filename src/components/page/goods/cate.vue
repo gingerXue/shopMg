@@ -14,6 +14,7 @@
       <add-cate :addCate="addCate"></add-cate>
       <!--表格区域-->
       <el-table
+        v-loading="tableData.loading"
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         row-key="cat_id"
         :data="tableData.data"
@@ -67,6 +68,7 @@ export default {
   data () {
     return {
       tableData: { // 表格数据
+        loading: true,
         data: [],
         total: 0
       },
@@ -90,6 +92,7 @@ export default {
       if (data.meta.status !== 200) return this.$message.error('获取商品分类列表失败')
       this.tableData.data = data.data.result
       this.tableData.total = data.data.total
+      this.tableData.loading = false
     },
     getType (text) {
       return text === 0 ? 'primary'
